@@ -21,7 +21,7 @@ st.set_page_config(
 
 
 
-st.title("🩺 Medical Report Simplifier")
+st.title("🩺 st.title("🩺 Medical Report Simplifier with Hallucination Checks")")
 
 st.subheader(
     "Understand your medical reports in simple language"
