@@ -7,6 +7,8 @@ from PIL import Image
 import io
 import re
 import html
+from google import genai
+import os
 
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
