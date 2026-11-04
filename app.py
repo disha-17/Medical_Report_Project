@@ -10,32 +10,52 @@ import html
 from google import genai
 import os
 
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
-
-st.set_page_config(
-    page_title="Medical Report Simplifier",
-    page_icon="app_icon.png",
-    layout="wide"
-)
-
-
-
-
-
-import streamlit as st
-import fitz
-import pytesseract
-from docx import Document
-from PIL import Image
-import io
-import re
-import html
 
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
+
+
+def medical_ai_agent(report_text):
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+
+        client = genai.Client(api_key=api_key)
+
+        prompt = f"""
+        You are a careful medical report explanation assistant.
+
+        Read the original medical report below.
+
+        Tasks:
+        1. Explain medical terms in simple English.
+        2. Summarize the report clearly.
+        3. Preserve all medical values and units exactly.
+        4. Do not invent results, diagnoses or treatments.
+        5. Check whether every explanation is supported
+           by the original report.
+        6. Mention any information that cannot be verified.
+
+        Original medical report:
+        {report_text}
+
+        Return:
+        A. Simple explanation
+        B. Important medical values
+        C. Hallucination and factual support checks
+        D. Information that needs confirmation
+        """
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+
+        return response.text
+
+    except Exception as e:
+        return f"AI Agent Error: {str(e)}"
+
 
 st.set_page_config(
     page_title="Medical Report Simplifier",
