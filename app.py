@@ -692,7 +692,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-        except Exception as error:
-            st.error("Could not process the file: " + str(error))
-            google-genai
