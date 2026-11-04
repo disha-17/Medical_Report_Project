@@ -782,3 +782,4 @@ if uploaded_file is not None:
 
         except Exception as error:
             st.error("Could not process the file: " + str(error))
+            google-genai
