@@ -333,7 +333,7 @@ uploaded_file = st.file_uploader(
     "Choose a file from your device",
     type=["pdf", "docx", "png", "jpg", "jpeg"],
     help="Upload a readable medical report to get a simple explanation.",
-    key="medical_report_upload2"
+    key="medical_report_upload"
 )
 
 if uploaded_file is not None:
@@ -701,7 +701,7 @@ uploaded_file = st.file_uploader(
     "Choose a file from your device",
     type=["pdf", "docx", "png", "jpg", "jpeg"],
     help="Upload a readable medical report to get a simple explanation.",
-    key="medical_report_upload"
+    key="medical_report_upload2"
 )
 
 if uploaded_file is not None:
