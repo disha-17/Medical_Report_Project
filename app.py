@@ -669,10 +669,6 @@ def check_numbers(original, simplified):
         if number not in original_numbers
     ]
 
-
-
-
-
 st.markdown(
     """
     <div style="
@@ -696,111 +692,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-uploaded_file = st.file_uploader(
-    "Choose a file from your device",
-    type=["pdf", "docx", "png", "jpg", "jpeg"],
-    help="Upload a readable medical report to get a simple explanation.",
-    key="medical_report_upload2"
-)
-
-if uploaded_file is not None:
-    if st.button("Simplify Medical Report"):
-        try:
-            # Keep your existing report-processing code here
-
-            extracted_text = []
-            file_name = uploaded_file.name.lower()
-            file_bytes = uploaded_file.getvalue()
-
-            if file_name.endswith(".docx"):
-                document = Document(io.BytesIO(file_bytes))
-                extracted_text = [
-                    p.text for p in document.paragraphs
-                    if p.text.strip()
-                ]
-                for table in document.tables:
-                    for row in table.rows:
-                        extracted_text.append(
-                            " | ".join(cell.text for cell in row.cells)
-                        )
-
-            elif file_name.endswith((".png", ".jpg", ".jpeg")):
-                image = Image.open(io.BytesIO(file_bytes))
-                extracted_text = [
-                    pytesseract.image_to_string(image, lang="eng")
-                ]
-
-            elif file_name.endswith(".pdf"):
-                with fitz.open(
-                    stream=file_bytes, filetype="pdf"
-                ) as pdf:
-                    for page in pdf:
-                        page_text = page.get_text().strip()
-
-                        if not page_text:
-                            pix = page.get_pixmap(
-                                matrix=fitz.Matrix(2, 2),
-                                alpha=False
-                            )
-                            image = Image.open(
-                                io.BytesIO(pix.tobytes("png"))
-                            )
-                            page_text = pytesseract.image_to_string(
-                                image, lang="eng"
-                            )
-
-                        extracted_text.append(page_text)
-
-            original_text = "\n".join(extracted_text).strip()
-
-            if not original_text:
-                st.warning("No text could be read from this file.")
-            else:
-                st.subheader("Simplified Explanation")
-                explanations = simplify_report(original_text)
-
-                for item in explanations:
-                    st.markdown(item)
-
-                simplified_text = "\n".join(
-                    item.replace("**", "")
-                    for item in explanations
-                )
-
-                st.subheader("Basic Number Check")
-                warnings = check_numbers(
-                    original_text, simplified_text
-                )
-
-                
-                if warnings:
-                    st.warning(
-                        "Numbers not found in original report: "
-                        + ", ".join(warnings)
-                    )
-                else:
-                    st.success("No unsupported numbers detected.")
-
-                st.download_button(
-                    "Download Simplified Report",
-                    data=simplified_text,
-                    file_name="simplified_report.txt",
-                    mime="text/plain"
-                )
-
-                with st.expander("View Original Report Text"):
-                    st.text_area(
-                        "Original Report",
-                        value=original_text,
-                        height=250,
-                        disabled=True
-                    )
-                    
-                st.caption(
-                    "Educational prototype only. This app does not "
-                    "diagnose medical conditions or guarantee accuracy."
-                )
 
         except Exception as error:
             st.error("Could not process the file: " + str(error))
