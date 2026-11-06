@@ -232,10 +232,7 @@ def simplify_report(text):
         "urine protein":
             "Urine protein testing checks whether protein is present in the urine."
     }
-
-
-       results = []
-
+    results = []
     for term, explanation in explanations.items():
         if term in text.lower():
             results.append(f"**{term.title()}:** {explanation}")
