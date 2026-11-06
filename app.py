@@ -7,13 +7,12 @@ import io
 import re
 import html
 import google.generativeai as genai
+import os
 
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
-
-genai.configure(api_key="AQ.Ab8RN6JqlocQ_GxCUj8WhUesJmIjKiL05AhMdmp3H8jyVRl60A")
-
+genai.configure(api_key=os.getenv("AQ.Ab8RN6JqlocQ_GxCUj8WhUesJmIjKiL05AhMdmp3H8jyVRl60A"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 st.set_page_config(
