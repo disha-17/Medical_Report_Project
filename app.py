@@ -1,4 +1,3 @@
-
 import streamlit as st
 import fitz
 import pytesseract
@@ -7,10 +6,15 @@ from PIL import Image
 import io
 import re
 import html
+import google.generativeai as genai
 
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
+
+genai.configure(api_key="AQ.Ab8RN6JqlocQ_GxCUj8WhUesJmIjKiL05AhMdmp3H8jyVRl60A")
+
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 st.set_page_config(
     page_title="Medical Report Simplifier",
@@ -241,6 +245,28 @@ def simplify_report(text):
         results.append("No known medical terms were found.")
 
     return results
+    def medical_ai_agent(report_text):
+    prompt = f"""
+You are a medical report simplifier.
+
+Your job:
+1. Explain the report in very simple English.
+2. Explain each important test result.
+3. Do not invent any diseases or treatments.
+4. If something is not mentioned in the report, say:
+   "Not mentioned in the uploaded report."
+5. At the end, provide:
+   - Summary
+   - Verified Information
+   - Possible Unsupported Statements
+   - Disclaimer
+
+Medical Report:
+{report_text}
+"""
+
+    response = model.generate_content(prompt)
+    return response.text
 
 
 def check_numbers(original, simplified):
@@ -344,16 +370,13 @@ if uploaded_file is not None:
             if not original_text:
                 st.warning("No text could be read from this file.")
             else:
-                st.subheader("Simplified Explanation")
-                explanations = simplify_report(original_text)
+                st.subheader("AI Simplified Medical Report")
 
-                for item in explanations:
-                    st.markdown(item)
+with st.spinner("Analyzing your medical report..."):
+    simplified_text = medical_ai_agent(original_text)
 
-                simplified_text = "\n".join(
-                    item.replace("**", "")
-                    for item in explanations
-                )
+st.markdown(simplified_text)
+               
 
                 st.subheader("Basic Number Check")
                 warnings = check_numbers(
