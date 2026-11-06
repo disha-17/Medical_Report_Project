@@ -234,7 +234,7 @@ def simplify_report(text):
     }
 
 
-    results = []
+       results = []
 
     for term, explanation in explanations.items():
         if term in text.lower():
@@ -243,7 +243,7 @@ def simplify_report(text):
     if not results:
         results.append("No known medical terms were found.")
 
-   return results
+    return results
 
 
 def medical_ai_agent(report_text):
