@@ -366,20 +366,18 @@ if uploaded_file is not None:
             if not original_text:
                 st.warning("No text could be read from this file.")
             else:
-                st.subheader("AI Simplified Medical Report")
+                                st.subheader("AI Simplified Medical Report")
 
-with st.spinner("Analyzing your medical report..."):
-    simplified_text = medical_ai_agent(original_text)
+                with st.spinner("Analyzing your medical report..."):
+                    simplified_text = medical_ai_agent(original_text)
 
-st.markdown(simplified_text)
-               
+                st.markdown(simplified_text)
 
                 st.subheader("Basic Number Check")
                 warnings = check_numbers(
                     original_text, simplified_text
                 )
 
-                
                 if warnings:
                     st.warning(
                         "Numbers not found in original report: "
@@ -402,11 +400,11 @@ st.markdown(simplified_text)
                         height=250,
                         disabled=True
                     )
-                    
+
                 st.caption(
                     "Educational prototype only. This app does not "
                     "diagnose medical conditions or guarantee accuracy."
                 )
-
+               
         except Exception as error:
             st.error("Could not process the file: " + str(error))
