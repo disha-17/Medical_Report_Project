@@ -243,8 +243,10 @@ def simplify_report(text):
     if not results:
         results.append("No known medical terms were found.")
 
-    return results
-    def medical_ai_agent(report_text):
+   return results
+
+
+def medical_ai_agent(report_text):
     prompt = f"""
 You are a medical report simplifier.
 
@@ -266,8 +268,6 @@ Medical Report:
 
     response = model.generate_content(prompt)
     return response.text
-
-
 def check_numbers(original, simplified):
     original_numbers = re.findall(
         r"\b\d+(?:\.\d+)?\b", original
