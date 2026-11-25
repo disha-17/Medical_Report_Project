@@ -6,7 +6,7 @@ from PIL import Image
 import io
 import re
 import html
-import google.generativeai as genai
+from google import genai
 import os
 
 pytesseract.pytesseract.tesseract_cmd = (
