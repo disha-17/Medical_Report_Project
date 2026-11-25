@@ -157,7 +157,6 @@ st.write(
     "Upload a PDF, Word document, or image to get easy-to-understand "
     "explanations of medical terms."
 )
-
 def simplify_report(text):
     
     explanations = {
