@@ -37,13 +37,6 @@ st.markdown(
     """
 )
 
-st.info(
-    "For educational use only. This tool does not provide "
-    "a diagnosis or replace advice from a qualified "
-    "healthcare professional."
-)
-
-
 st.markdown(
     """
     <style>
@@ -164,11 +157,6 @@ st.write(
     "Upload a PDF, Word document, or image to get easy-to-understand "
     "explanations of medical terms."
 )
-st.info(
-    "For educational use only. This tool does not provide a diagnosis "
-    "or replace advice from a qualified healthcare professional."
-)
-
 
 def simplify_report(text):
     
