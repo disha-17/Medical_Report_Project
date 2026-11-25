@@ -366,45 +366,36 @@ if uploaded_file is not None:
             if not original_text:
                 st.warning("No text could be read from this file.")
             else:
-                                st.subheader("AI Simplified Medical Report")
-
+                st.subheader("AI Simplified Medical Report")
                 with st.spinner("Analyzing your medical report..."):
                     simplified_text = medical_ai_agent(original_text)
-
-                st.markdown(simplified_text)
-
-                st.subheader("Basic Number Check")
-                warnings = check_numbers(
-                    original_text, simplified_text
-                )
-
-                if warnings:
-                    st.warning(
-                        "Numbers not found in original report: "
-                        + ", ".join(warnings)
+                    st.markdown(simplified_text)
+                    st.subheader("Basic Number Check")
+                    warnings = check_numbers(
+                        original_text, simplified_text
                     )
-                else:
-                    st.success("No unsupported numbers detected.")
-
-                st.download_button(
-                    "Download Simplified Report",
-                    data=simplified_text,
-                    file_name="simplified_report.txt",
-                    mime="text/plain"
-                )
-
-                with st.expander("View Original Report Text"):
-                    st.text_area(
-                        "Original Report",
-                        value=original_text,
-                        height=250,
-                        disabled=True
-                    )
-
-                st.caption(
-                    "Educational prototype only. This app does not "
-                    "diagnose medical conditions or guarantee accuracy."
-                )
-               
+                    if warnings:
+                        st.warning(
+                            "Numbers not found in original report: " + ", ".join(warnings)
+                        )
+                    else:
+                        st.success("No unsupported numbers detected.")
+                        st.download_button(
+                            "Download Simplified Report",
+                            data=simplified_text,
+                            file_name="simplified_report.txt",
+                            mime="text/plain"
+                        )
+                        with st.expander("View Original Report Text"):
+                            st.text_area(
+                                "Original Report",
+                                value=original_text,
+                                height=250,
+                                disabled=True
+                            )
+                            st.caption(
+                                "Educational prototype only. This app does not "
+                                "diagnose medical conditions or guarantee accuracy."
+                            )
         except Exception as error:
             st.error("Could not process the file: " + str(error))
