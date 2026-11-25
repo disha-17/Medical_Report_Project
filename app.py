@@ -12,7 +12,7 @@ import os
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(api_key=os.getenv("AQ.Ab8RN6JborWVZpJUwcMQtKkSoAnHyF7b-nCYh_efgyQ_e5FP7g"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 st.set_page_config(
