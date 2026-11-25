@@ -231,27 +231,7 @@ def simplify_report(text):
     return results
 
 
-def medical_ai_agent(report_text):
-    prompt = f"""
-You are a medical report simplifier.
-
-Your job:
-1. Explain the report in very simple English.
-2. Explain each important test result.
-3. Do not invent any diseases or treatments.
-4. If something is not mentioned in the report, say:
-   "Not mentioned in the uploaded report."
-5. At the end, provide:
-   - Summary
-   - Verified Information
-   - Possible Unsupported Statements
-   - Disclaimer
-
-Medical Report:
-{report_text}
-"""
-
-    response = client.models.generate_content(
+response = client.models.generate_content(
     model="gemini-2.5-flash",
     contents=prompt
 )
