@@ -12,7 +12,7 @@ import os
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
-genai.configure(api_key=os.getenv("AQ.Ab8RN6JqlocQ_GxCUj8WhUesJmIjKiL05AhMdmp3H8jyVRl60A"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 st.set_page_config(
@@ -251,8 +251,12 @@ Medical Report:
 {report_text}
 """
 
-    response = model.generate_content(prompt)
-    return response.text
+    response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt
+)
+
+return response.text
 def check_numbers(original, simplified):
     original_numbers = re.findall(
         r"\b\d+(?:\.\d+)?\b", original
