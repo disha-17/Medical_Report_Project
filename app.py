@@ -224,11 +224,11 @@ def simplify_report(text):
     for term, explanation in explanations.items():
         if term in text.lower():
             results.append(f"**{term.title()}:** {explanation}")
-
+                    
     if not results:
-        results.append("No known medical terms were found.")
-
+       results.append("No known medical terms were found.")
     return results
+    
     def medical_ai_agent(report_text):
         prompt = f"""
         You are a medical report simplifier.
@@ -245,19 +245,21 @@ def simplify_report(text):
             model="gemini-2.5-flash",
             contents=prompt
         )
+        
         return response.text
-        def check_numbers(original, simplified):
-            original_numbers = re.findall(
-                r"\b\d+(?:\.\d+)?\b", original
-            )
-            simplified_numbers = re.findall(
-                r"\b\d+(?:\.\d+)?\b", simplified
-            )
-            return [
-                number for number in simplified_numbers
-                if number not in original_numbers
-            ]
-
+        
+    def check_numbers(original, simplified):
+        original_numbers = re.findall(
+            r"\b\d+(?:\.\d+)?\b", original
+        )
+        simplified_numbers = re.findall(
+            r"\b\d+(?:\.\d+)?\b", simplified
+        )
+        return [
+            number for number in simplified_numbers
+            if number not in original_numbers
+        ]
+        
 st.markdown(
     """
     <div style="
