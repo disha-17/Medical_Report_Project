@@ -229,30 +229,34 @@ def simplify_report(text):
         results.append("No known medical terms were found.")
 
     return results
-
-
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents=prompt
-)
-
-return response.text
-def check_numbers(original, simplified):
-    original_numbers = re.findall(
-        r"\b\d+(?:\.\d+)?\b", original
-    )
-    simplified_numbers = re.findall(
-        r"\b\d+(?:\.\d+)?\b", simplified
-    )
-
-    return [
-        number for number in simplified_numbers
-        if number not in original_numbers
-    ]
-
-
-
-
+    def medical_ai_agent(report_text):
+        prompt = f"""
+        You are a medical report simplifier.
+        Your job:
+        1. Explain the report in simple English.
+        2. Explain every important test result.
+        3. Do not invent diseases or treatments.
+        4. If something is not mentioned in the report, say:
+        "Not mentioned in the uploaded report."
+        Medical Report:
+        {report_text}
+        """
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+        return response.text
+        def check_numbers(original, simplified):
+            original_numbers = re.findall(
+                r"\b\d+(?:\.\d+)?\b", original
+            )
+            simplified_numbers = re.findall(
+                r"\b\d+(?:\.\d+)?\b", simplified
+            )
+            return [
+                number for number in simplified_numbers
+                if number not in original_numbers
+            ]
 
 st.markdown(
     """
