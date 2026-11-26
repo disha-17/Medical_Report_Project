@@ -254,11 +254,6 @@ def check_numbers(original, simplified):
         number for number in simplified_numbers
         if number not in original_numbers
     ]
-
-
-
-
-
 st.markdown(
     """
     <div style="
@@ -346,49 +341,56 @@ if uploaded_file is not None:
                         if not original_text:
                             st.warning("No text could be read from this file.")
                         else:
-                            st.subheader("Simplified Explanation")
-                            explanations = simplify_report(original_text)
-                            term_count = len(explanations)
-                            st.write(f"**🩺 Medical Terms Found:** {term_count}")
-                            # Display all explanations
-    for item in explanations:
-        st.markdown(item)
-        # Create simplified text only once
-    simplified_text = "\n".join(
-        item.replace("**", "")
-        for item in explanations
+                           st.subheader("Simplified Explanation")
+
+explanations = simplify_report(original_text)
+term_count = len(explanations)
+st.write(f"**🩺 Medical Terms Found:** {term_count}")
+
+# Display all explanations
+for item in explanations:
+    st.markdown(item)
+
+# Create simplified text only once
+simplified_text = "\n".join(
+    item.replace("**", "")
+    for item in explanations
+)
+
+st.subheader("Basic Number Check")
+
+warnings = check_numbers(
+    original_text,
+    simplified_text
+)
+
+if warnings:
+    st.warning(
+        "Numbers not found in original report: "
+        + ", ".join(warnings)
     )
-    st.subheader("Basic Number Check")
-    warnings = check_numbers(
-        original_text,
-        simplified_text
+else:
+    st.success("No unsupported numbers detected.")
+
+st.download_button(
+    "Download Simplified Report",
+    data=simplified_text,
+    file_name="simplified_report.txt",
+    mime="text/plain"
+)
+
+with st.expander("View Original Report Text"):
+    st.text_area(
+        "Original Report",
+        value=original_text,
+        height=250,
+        disabled=True
     )
-    if warnings:
-        st.warning(
-            "Numbers not found in original report: "
-            + ", ".join(warnings)
-        )
-    else:
-        st.success("No unsupported numbers detected.")
-        # Create only ONE download button
-    st.download_button(
-        "Download Simplified Report",
-        data=simplified_text,
-        file_name="simplified_report.txt",
-        mime="text/plain"
-    )
-    with st.expander("View Original Report Text"):
-        st.text_area(
-            "Original Report",
-            original_text,
-            height=250
-        )
-        st.text_area(
-            "Original Report",
-            value=original_text,
-            height=250,
-            disabled=True
-        )
+
+st.caption(
+    "Educational prototype only. This app does not "
+    "diagnose medical conditions or guarantee accuracy."
+)
         st.caption(
             "Educational prototype only. This app does not "
             "diagnose medical conditions or guarantee accuracy."
