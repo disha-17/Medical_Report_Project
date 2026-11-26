@@ -17,15 +17,21 @@ st.set_page_config(
     page_icon="app_icon.png",
     layout="wide"
 )
-
-
-
-
 st.title("🩺 Medical Report Simplifier With Hallucination Checks")
 
 st.subheader(
     "Understand your medical reports in simple language"
 )
+
+st.markdown("## 📋 How It Works")
+
+st.markdown("""
+1. 📄 Upload your medical report (PDF, DOCX, or Image).
+2. 🔍 The system extracts text from your report.
+3. 🩺 Medical terms are identified.
+4. 📖 Simple explanations are displayed.
+5. 📥 Download the simplified report.
+""")
 
 st.markdown(
     """
