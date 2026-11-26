@@ -291,6 +291,8 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file is not None:
+    st.subheader("📊 Report Summary")
+    st.write(f"**📄 File Name:** {uploaded_file.name}")
     if st.button("Simplify Medical Report"):
         try:
             # Keep your existing report-processing code here
