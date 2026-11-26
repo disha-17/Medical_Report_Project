@@ -22,13 +22,6 @@ st.title("🩺 Medical Report Simplifier With Hallucination Checks")
 st.subheader(
     "Understand your medical reports in simple language"
 )
-st.write("📋 How It Works")
-
-st.write("1. Upload your medical report.")
-st.write("2. Extract text.")
-st.write("3. Identify medical terms.")
-st.write("4. Show simple explanations.")
-st.write("5. Download the report.")
 
 st.markdown("""
 1. 📄 Upload your medical report (PDF, DOCX, or Image).
