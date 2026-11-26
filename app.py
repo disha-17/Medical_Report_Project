@@ -23,19 +23,20 @@ st.subheader(
     "Understand your medical reports in simple language"
 )
 
-st.markdown("""
-<style>
+st.markdown(
+    """
+    <h2 style="color:#07566B;">📋 How It Works</h2>
 
-st.markdown("""
-1. 📄 Upload your medical report (PDF, DOCX, or Image).
-2. 🔍 The system extracts text from your report.
-3. 🩺 Medical terms are identified.
-4. 📖 Simple explanations are displayed.
-5. 📥 Download the simplified report.
-""")
-
-</style>
-""", unsafe_allow_html=True)
+    <p style="color:#07566B; font-size:18px;">
+    1. 📄 Upload your medical report (PDF, DOCX, or Image).<br>
+    2. 🔍 The system extracts text from your report.<br>
+    3. 🩺 Medical terms are identified.<br>
+    4. 📖 Simple explanations are displayed.<br>
+    5. 📥 Download the simplified report.
+    </p>
+    """,
+    unsafe_allow_html=True,
+)
 
 st.markdown(
     """
