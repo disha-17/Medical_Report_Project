@@ -23,6 +23,12 @@ st.subheader(
     "Understand your medical reports in simple language"
 )
 
+st.markdown(f"""
+<style>
+...
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown("""
 1. 📄 Upload your medical report (PDF, DOCX, or Image).
 2. 🔍 The system extracts text from your report.
