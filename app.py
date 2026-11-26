@@ -340,19 +340,20 @@ if uploaded_file is not None:
 
                         extracted_text.append(page_text)
 
-           original_text = "\n".join(extracted_text).strip()
-        # Report Summary
+          original_text = "\n".join(extracted_text).strip()
+
 word_count = len(original_text.split())
+
 st.write(f"**🔤 Words Extracted:** {word_count}")
 
 if not original_text:
-                st.warning("No text could be read from this file.")
-            else:
-                st.subheader("Simplified Explanation")
-                explanations = simplify_report(original_text)
+    st.warning("No text could be read from this file.")
+else:
+    st.subheader("Simplified Explanation")
+    explanations = simplify_report(original_text)
 
-                for item in explanations:
-                    st.markdown(item)
+    for item in explanations:
+        st.markdown(item)
 
                 simplified_text = "\n".join(
                     item.replace("**", "")
