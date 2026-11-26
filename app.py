@@ -21,7 +21,7 @@ st.set_page_config(
 
 
 
-st.title("🩺 Medical Report Simplifier")
+st.title("🩺 Medical Report Simplifier With Hallucination Checks")
 
 st.subheader(
     "Understand your medical reports in simple language"
@@ -33,13 +33,6 @@ st.markdown(
     medical terms and results in simple language.
     """
 )
-
-st.info(
-    "For educational use only. This tool does not provide "
-    "a diagnosis or replace advice from a qualified "
-    "healthcare professional."
-)
-
 
 st.markdown(
     """
@@ -161,11 +154,6 @@ st.write(
     "Upload a PDF, Word document, or image to get easy-to-understand "
     "explanations of medical terms."
 )
-st.info(
-    "For educational use only. This tool does not provide a diagnosis "
-    "or replace advice from a qualified healthcare professional."
-)
-
 
 def simplify_report(text):
     
