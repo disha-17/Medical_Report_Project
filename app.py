@@ -350,40 +350,48 @@ if uploaded_file is not None:
                             explanations = simplify_report(original_text)
                             term_count = len(explanations)
                             st.write(f"**🩺 Medical Terms Found:** {term_count}")
-                            
-                            for item in explanations:
-                                st.markdown(item)
-                                simplified_text = "\n".join(
-                                    item.replace("**", "")
-                                    for item in explanations
-                                )
-                                st.subheader("Basic Number Check")
-                                warnings = check_numbers(
-                                    original_text, simplified_text
-                                )
-                                if warnings:
-                                    st.warning(
-                                        "Numbers not found in original report: "
-                                        + ", ".join(warnings)
-                                    )
-                                else:
-                                    st.success("No unsupported numbers detected.")
-                                    st.download_button(
-                                        "Download Simplified Report",
-                                        data=simplified_text,
-                                        file_name="simplified_report.txt",
-                                        mime="text/plain"
-                                    )
-                                    with st.expander("View Original Report Text"):
-                                        st.text_area(
-                                            "Original Report",
-                                            value=original_text,
-                                            height=250,
-                                            disabled=True
-                                        )
-                                        st.caption(
-                                            "Educational prototype only. This app does not "
-                                            "diagnose medical conditions or guarantee accuracy."
-                                        )
-        except Exception as error:
-            st.error("Could not process the file: " + str(error))
+                            # Display all explanations
+    for item in explanations:
+        st.markdown(item)
+        # Create simplified text only once
+    simplified_text = "\n".join(
+        item.replace("**", "")
+        for item in explanations
+    )
+    st.subheader("Basic Number Check")
+    warnings = check_numbers(
+        original_text,
+        simplified_text
+    )
+    if warnings:
+        st.warning(
+            "Numbers not found in original report: "
+            + ", ".join(warnings)
+        )
+    else:
+        st.success("No unsupported numbers detected.")
+        # Create only ONE download button
+    st.download_button(
+        "Download Simplified Report",
+        data=simplified_text,
+        file_name="simplified_report.txt",
+        mime="text/plain"
+    )
+    with st.expander("View Original Report Text"):
+        st.text_area(
+            "Original Report",
+            original_text,
+            height=250
+        )
+        st.text_area(
+            "Original Report",
+            value=original_text,
+            height=250,
+            disabled=True
+        )
+        st.caption(
+            "Educational prototype only. This app does not "
+            "diagnose medical conditions or guarantee accuracy."
+        )
+except Exception as error:
+st.error("Could not process the file: " + str(error))
