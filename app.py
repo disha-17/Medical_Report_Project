@@ -23,10 +23,8 @@ st.subheader(
     "Understand your medical reports in simple language"
 )
 
-st.markdown(f"""
-<style>
-...
-</style>
+st.markdown("""
+<h2 style="color:#07566B;">📋 How It Works</h2>
 """, unsafe_allow_html=True)
 
 st.markdown("""
@@ -36,7 +34,6 @@ st.markdown("""
 4. 📖 Simple explanations are displayed.
 5. 📥 Download the simplified report.
 """)
-
 st.markdown(
     """
     Welcome! Upload your medical report to understand
