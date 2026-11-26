@@ -348,6 +348,9 @@ if uploaded_file is not None:
                         else:
                             st.subheader("Simplified Explanation")
                             explanations = simplify_report(original_text)
+                            term_count = len(explanations)
+                            st.write(f"**🩺 Medical Terms Found:** {term_count}")
+                            
                             for item in explanations:
                                 st.markdown(item)
                                 simplified_text = "\n".join(
