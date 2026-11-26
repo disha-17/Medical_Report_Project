@@ -1,3 +1,4 @@
+
 import streamlit as st
 import fitz
 import pytesseract
@@ -6,14 +7,10 @@ from PIL import Image
 import io
 import re
 import html
-from google import genai
-import os
 
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
-client = genai.Client(api_key=os.getenv("AQ.Ab8RN6JborWVZpJUwcMQtKkSoAnHyF7b-nCYh_efgyQ_e5FP7g"))
-
 
 st.set_page_config(
     page_title="Medical Report Simplifier",
@@ -24,7 +21,7 @@ st.set_page_config(
 
 
 
-st.title("🩺 Medical Report Simplifier With Hallocination Checks")
+st.title("🩺 Medical Report Simplifier")
 
 st.subheader(
     "Understand your medical reports in simple language"
@@ -36,6 +33,13 @@ st.markdown(
     medical terms and results in simple language.
     """
 )
+
+st.info(
+    "For educational use only. This tool does not provide "
+    "a diagnosis or replace advice from a qualified "
+    "healthcare professional."
+)
+
 
 st.markdown(
     """
@@ -157,6 +161,12 @@ st.write(
     "Upload a PDF, Word document, or image to get easy-to-understand "
     "explanations of medical terms."
 )
+st.info(
+    "For educational use only. This tool does not provide a diagnosis "
+    "or replace advice from a qualified healthcare professional."
+)
+
+
 def simplify_report(text):
     
     explanations = {
@@ -219,46 +229,37 @@ def simplify_report(text):
         "urine protein":
             "Urine protein testing checks whether protein is present in the urine."
     }
+
+
     results = []
+
     for term, explanation in explanations.items():
         if term in text.lower():
             results.append(f"**{term.title()}:** {explanation}")
-                    
+
     if not results:
-       results.append("No known medical terms were found.")
+        results.append("No known medical terms were found.")
+
     return results
-    
-    def medical_ai_agent(report_text):
-        prompt = f"""
-        You are a medical report simplifier.
-        Your job:
-        1. Explain the report in simple English.
-        2. Explain every important test result.
-        3. Do not invent diseases or treatments.
-        4. If something is not mentioned in the report, say:
-        "Not mentioned in the uploaded report."
-        Medical Report:
-        {report_text}
-        """
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
-        
-        return response.text
-        
-    def check_numbers(original, simplified):
-        original_numbers = re.findall(
-            r"\b\d+(?:\.\d+)?\b", original
-        )
-        simplified_numbers = re.findall(
-            r"\b\d+(?:\.\d+)?\b", simplified
-        )
-        return [
-            number for number in simplified_numbers
-            if number not in original_numbers
-        ]
-        
+
+
+def check_numbers(original, simplified):
+    original_numbers = re.findall(
+        r"\b\d+(?:\.\d+)?\b", original
+    )
+    simplified_numbers = re.findall(
+        r"\b\d+(?:\.\d+)?\b", simplified
+    )
+
+    return [
+        number for number in simplified_numbers
+        if number not in original_numbers
+    ]
+
+
+
+
+
 st.markdown(
     """
     <div style="
@@ -343,36 +344,50 @@ if uploaded_file is not None:
             if not original_text:
                 st.warning("No text could be read from this file.")
             else:
-                st.subheader("AI Simplified Medical Report")
-                with st.spinner("Analyzing your medical report..."):
-                    simplified_text = medical_ai_agent(original_text)
-                    st.markdown(simplified_text)
-                    st.subheader("Basic Number Check")
-                    warnings = check_numbers(
-                        original_text, simplified_text
+                st.subheader("Simplified Explanation")
+                explanations = simplify_report(original_text)
+
+                for item in explanations:
+                    st.markdown(item)
+
+                simplified_text = "\n".join(
+                    item.replace("**", "")
+                    for item in explanations
+                )
+
+                st.subheader("Basic Number Check")
+                warnings = check_numbers(
+                    original_text, simplified_text
+                )
+
+                
+                if warnings:
+                    st.warning(
+                        "Numbers not found in original report: "
+                        + ", ".join(warnings)
                     )
-                    if warnings:
-                        st.warning(
-                            "Numbers not found in original report: " + ", ".join(warnings)
-                        )
-                    else:
-                        st.success("No unsupported numbers detected.")
-                        st.download_button(
-                            "Download Simplified Report",
-                            data=simplified_text,
-                            file_name="simplified_report.txt",
-                            mime="text/plain"
-                        )
-                        with st.expander("View Original Report Text"):
-                            st.text_area(
-                                "Original Report",
-                                value=original_text,
-                                height=250,
-                                disabled=True
-                            )
-                            st.caption(
-                                "Educational prototype only. This app does not "
-                                "diagnose medical conditions or guarantee accuracy."
-                            )
+                else:
+                    st.success("No unsupported numbers detected.")
+
+                st.download_button(
+                    "Download Simplified Report",
+                    data=simplified_text,
+                    file_name="simplified_report.txt",
+                    mime="text/plain"
+                )
+
+                with st.expander("View Original Report Text"):
+                    st.text_area(
+                        "Original Report",
+                        value=original_text,
+                        height=250,
+                        disabled=True
+                    )
+                    
+                st.caption(
+                    "Educational prototype only. This app does not "
+                    "diagnose medical conditions or guarantee accuracy."
+                )
+
         except Exception as error:
             st.error("Could not process the file: " + str(error))
