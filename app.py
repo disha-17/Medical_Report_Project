@@ -24,8 +24,7 @@ st.subheader(
 )
 
 st.markdown("""
-<h2 style="color:#07566B;">📋 How It Works</h2>
-""", unsafe_allow_html=True)
+<style>
 
 st.markdown("""
 1. 📄 Upload your medical report (PDF, DOCX, or Image).
@@ -34,6 +33,10 @@ st.markdown("""
 4. 📖 Simple explanations are displayed.
 5. 📥 Download the simplified report.
 """)
+
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown(
     """
     Welcome! Upload your medical report to understand
