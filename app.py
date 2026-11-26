@@ -22,8 +22,9 @@ st.title("🩺 Medical Report Simplifier With Hallucination Checks")
 st.subheader(
     "Understand your medical reports in simple language"
 )
-
-st.markdown("## 📋 How It Works")
+st.markdown("""
+<h2 style="color:#07566B;">📋 How It Works</h2>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 1. 📄 Upload your medical report (PDF, DOCX, or Image).
