@@ -3,4 +3,3 @@ PyMuPDF
 pytesseract
 python-docx
 Pillow
-google-genai
